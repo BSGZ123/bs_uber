@@ -1,0 +1,9 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "bs_uber",
+  "appid": "testAppId",
+  "setting": {
+    "es6": false,
+    "minified": false
+  }
+}
