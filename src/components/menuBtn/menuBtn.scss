@@ -1,0 +1,22 @@
+.zealot-button__add {
+  position: fixed;
+  bottom: 150px;
+  left: 50%;
+  display: inline-block;
+  width: 360px;
+  color: #333333;
+  font-size: 36px;
+  font-family: PingFangSC-Medium, serif;
+  line-height: 88px;
+  background-image: linear-gradient(90deg, #FF7F50 6%, #fdad4e 100%);
+  border: none;
+  border-radius: 45px;
+  box-shadow: 8px 8px 20px 0 rgba(255, 122, 69, 0.3);
+  transform: translateX(-50%);
+  opacity: 1;
+  z-index: 10;
+}
+.zealot-button__add-hidden {
+  display: none;
+}
+

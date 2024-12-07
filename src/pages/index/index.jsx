@@ -1,9 +1,12 @@
 import Taro from '@tarojs/taro';
 // eslint-disable-next-line no-unused-vars
 import React, { Component } from 'react';
-import { View, Input, Map, ScrollView } from '@tarojs/components';
+import {View, Map, Image} from '@tarojs/components';
+import MenuBtn from "../../components/menuBtn/menuBtn";
+import NavigateButton from "../../components/navigaBtn/navigaBtn";
 import QQMapWX from '../../assets/qqmap-wx-jssdk.min.js';
 import imgUrl from '../../assets/location.png';
+import carLg from '../../assets/car-sm.jpg'
 import gStyle from '../../constants/globalStyles'
 import './index.scss';
 
@@ -25,11 +28,24 @@ class Index extends Component {
         },
       ],
       qMapKey: 'HPJBZ-I6AKJ-XM3F5-DZCGN-5RKUV-S6BLZ',
+      // eslint-disable-next-line react/no-unused-state
       QQMapSDK: {},
-      nearbyBuilding: [],
-      searchVal: 'House',
+      // nearbyBuilding: [],
+      // searchVal: 'House',
+      showMenu: false,
     };
   }
+
+  // eslint-disable-next-line react/sort-comp
+  toggleMenu = () => {
+    this.setState({ showMenu: !this.state.showMenu });
+  };
+
+  handleMenuItemClick = (page) => {
+    Taro.navigateTo({url: `/pages/${page}/${page}`}).then(() => {});
+    this.toggleMenu(); // Close the menu after navigation
+  };
+
 
   componentDidMount = () => {
     // 实例化API核心类
@@ -38,6 +54,7 @@ class Index extends Component {
       mapStyleId: 'style1', // 个性化地图
     });
     this.setState({
+      // eslint-disable-next-line react/no-unused-state
       QQMapSDK,
     });
     const that = this;
@@ -73,33 +90,33 @@ class Index extends Component {
           longitude: res.longitude, // 经度,
         });
       },
-    });
+    }).then(() => {});
   };
 
   /**
    * @desc 搜索框事件
    * @param { object } e
    */
-  handleSearchValChange = (e) => {
-    const that = this;
-    this.state.QQMapSDK.search({
-      keyword: e.detail.value,
-      success: function (searchRes) {
-        that.setState({
-          nearbyBuilding: searchRes.data,
-        });
-      },
-      fail: function (searchRes) {
-        console.log(searchRes);
-      },
-      // complete: function(searchRes) {
-      //   console.log(searchRes);
-      // },
-    });
-    this.setState({
-      searchVal: e.detail.value,
-    });
-  };
+  // handleSearchValChange = (e) => {
+  //   const that = this;
+  //   this.state.QQMapSDK.search({
+  //     keyword: e.detail.value,
+  //     success: function (searchRes) {
+  //       that.setState({
+  //         nearbyBuilding: searchRes.data,
+  //       });
+  //     },
+  //     fail: function (searchRes) {
+  //       console.log(searchRes);
+  //     },
+  //     // complete: function(searchRes) {
+  //     //   console.log(searchRes);
+  //     // },
+  //   });
+  //   this.setState({
+  //     searchVal: e.detail.value,
+  //   });
+  // };
 
   /**
    * @desc 列表项点击事件
@@ -137,15 +154,44 @@ class Index extends Component {
     console.log(e);
   };
   render() {
+
+    const menuItems = [
+      { name: 'Page 1', page: 'page1' },
+      { name: 'Page 2', page: 'page2' },
+      { name: 'Page 3', page: 'page3' },
+    ];
+
     return (
       <View className='homeWrap' style={gStyle.container}>
-        <View className='searchDom'>
-          <Input
-            value={this.state.searchVal}
-            onInput={this.handleSearchValChange.bind(this)}
-            className='inputDom'
-          />
+        {/*<View className='searchDom'>*/}
+        {/*  <Input*/}
+        {/*    value={this.state.searchVal}*/}
+        {/*    onInput={this.handleSearchValChange.bind(this)}*/}
+        {/*    className='inputDom'*/}
+        {/*  />*/}
+        {/*</View>*/}
+        <View className='menuHeader'>
+          <Image src={carLg} className='menuIcon' onClick={this.toggleMenu} />
         </View>
+
+
+        <NavigateButton onClick={this.toggleMenu} title='Ride' />
+        <MenuBtn onClick={this.toggleMenu} title='Test' />
+
+        {this.state.showMenu && (
+          <View className='menuDropdown'>
+            {menuItems.map((item) => (
+              <View
+                key={item.page}
+                className='menuItem'
+                onClick={() => this.handleMenuItemClick(item.page)}
+              >
+                {item.name}
+              </View>
+            ))}
+          </View>
+        )}
+
 
         {/**
          * longitude 中心经度
@@ -168,22 +214,19 @@ class Index extends Component {
           showLocation
         />
 
-        <ScrollView className='scrollDom' scrollY scrollWithAnimation lowerThreshold='50'>
-          {this.state.nearbyBuilding.map((item) => (
-            <View
-              key={item.id}
-              className='nearbyBuilding'
-              onClick={this.handleNearbyClick.bind(this, item.location.lat, item.location.lng)}
-            >
-              <View className='nearbyTitle'>{item.title}</View>
-              <View className='nearbyAddr'>{item.address}</View>
-            </View>
-          ))}
-        </ScrollView>
+        {/*<ScrollView className='scrollDom' scrollY scrollWithAnimation lowerThreshold='50'>*/}
+        {/*  {this.state.nearbyBuilding.map((item) => (*/}
+        {/*    <View*/}
+        {/*      key={item.id}*/}
+        {/*      className='nearbyBuilding'*/}
+        {/*      onClick={this.handleNearbyClick.bind(this, item.location.lat, item.location.lng)}*/}
+        {/*    >*/}
+        {/*      <View className='nearbyTitle'>{item.title}</View>*/}
+        {/*      <View className='nearbyAddr'>{item.address}</View>*/}
+        {/*    </View>*/}
+        {/*  ))}*/}
+        {/*</ScrollView>*/}
 
-        <View className='operateDom'>
-
-        </View>
 
       </View>
     );

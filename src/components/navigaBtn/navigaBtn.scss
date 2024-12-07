@@ -1,0 +1,28 @@
+.zealot-button__1add {
+  position: fixed;
+  top: 26px;
+  left: 50%;
+  display: inline-block;
+  width: 200px;
+  height: 75px;
+  color: #333333;
+  font-size: 32px;
+  font-family: PingFangSC-Medium, serif;
+  line-height: 84px;
+  background-image: linear-gradient(90deg, #fff 6%, #fff 90%);
+  border: none;
+  border-radius: 45px;
+  box-shadow: 8px 8px 20px 0 rgba(255, 122, 69, 0.3);
+  transform: translateX(-50%);
+  opacity: 1;
+  z-index: 9;
+
+  .navigateImg{
+    width: 64px;
+    height: 64px;
+  }
+}
+.zealot-button__1add-hidden {
+  display: none;
+}
+
